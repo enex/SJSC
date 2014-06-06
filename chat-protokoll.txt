@@ -1,0 +1,28 @@
+ja
+oder mindestens sehr sehr ähnlich
+Hast du die Map schon gemacht?
+also die Karte mit Canvas auf der die Spiele ihre Figuren setztn, ...
+man könnte nemlich eine einfache wrapper-bibilothek schreiben, die zumindes das redraw und hover managed
+also ich habe da volgende Vorstellung
+{
+	extends:[Canvas.Circle],
+	id: "test",
+	color: "green",
+	x: 10
+	y: 10
+	draggable: true
+	content: [],
+	draw: function(ctx,opt){}//selbst definierte draw-funktion die als Parameter die Einstellungne übergeben bekommt.
+}
+und das für jedes Element in conten von Canvas
+mit Extend übernimmt ein Element Alle eigenschaften eines anderen und erweitert diese noch
+x und y sind die Verschiebung an der das element gezeichnet wird mit translate
+wenn irgend welche Änderungen vorgenommen werden sollen wird dies direkt an dem Objekt getan, in dem Der Inhalt in oben genannter Form gespeichert ist und die Bibliothek Übernimmt diese Änderung direkt durch Objekt.observe()
+was hälst du davon?
+damit ist es möglich viele Elemente ineinander zu verschachteln und neue einfach zu defineiren
+
+habe schon eine funktionsfähige Bibliothek programmieret
+wenn du dan irgendwann mal on bist schick ich dir die aktuelle Version
+hat bis jetzt nur 100 zeilen kann aber schon ne ganze Menge
+aber noch kein drag and drop
+integriere ich jetzt

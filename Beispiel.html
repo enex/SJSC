@@ -1,0 +1,175 @@
+<canvas id="c" width="500" height="500">Dieser Browser unterstützt kein canvas</canvas>
+<script src="Object.observe.js"></script>
+<script src="canvas.js"></script><!--meine canvas bibliothek-->
+<script>
+var c = new canvas(document.getElementById("c"));
+m = c.model;
+c.expand();
+
+//549DD-ESDR5-54CD5-90000-09443
+
+var Halbkreis= {
+	fromx: 10,
+	fromy: 10,
+	tox: 100,
+	toy: 100,
+	color: "yellow",
+	draw: function(ctx, opt){//fromx, fromy, tox, toy
+		if(opt.from && opt.to){
+			opt.fromx = opt.from.x;
+			opt.fromy = opt.from.y;
+			opt.tox = opt.to.x;
+			opt.toy = opt.to.y;
+			opt.troughx = opt.through.x;
+			opt.troughy = opt.through.y;
+		}
+
+		//bestimmung des winkels für die Pfeilspitze
+		var dx = opt.tox-opt.fromx;
+		var dy = opt.toy-opt.fromy;
+		var angle = Math.atan2(dy,dx);
+
+		ctx.moveTo(opt.fromx, opt.fromy);
+		ctx.lineTo(opt.tox, opt.toy);
+
+		/*ctx.moveTo(opt.troughx, opt.troughy);
+		ctx.lineTo(opt.tox+(opt.fromx-opt.tox)*0.5,opt.toy+(opt.fromy-opt.toy)*0.5);*/
+		
+		ctx.moveTo(opt.troughx, opt.troughy);
+		ctx.lineTo(opt.tox, opt.toy);
+		ctx.moveTo(opt.troughx, opt.troughy);
+		ctx.lineTo(opt.fromx, opt.fromy);
+
+		//Kreismittelpunkt bestimmen
+		//Vektor from->trough steigung bestimmen um 90° und gerade mit dem selben von to->trough
+		var px = 0.5*(opt.fromx+opt.troughx);
+		var py = 0.5*(opt.fromy+opt.troughy);
+		ctx.moveTo(px, py);
+		ctx.lineTo(px+opt.troughy-opt.fromy,py-opt.troughx+opt.fromx);
+		var m = (opt.fromx-opt.troughx)/(opt.troughy-opt.fromy);
+		console.log(m);
+
+		var tx = 0.5*(opt.tox+opt.troughx);
+		var ty = 0.5*(opt.toy+opt.troughy);
+		ctx.moveTo(tx, ty);
+		ctx.lineTo(tx+opt.troughy-opt.toy,ty-opt.troughx+opt.tox);
+		//ctx.lineTo(tx, ty);
+		//ctx.lineTo();
+		//ctx.arc(95,50,40,0,2*Math.PI);
+
+		a = 0.3;
+		//Pfeilspitze malen
+		var headlen = 10;	// length of head in pixels
+		/*ctx.lineTo(opt.tox-headlen*Math.cos(angle-Math.PI/6),opt.toy-headlen*Math.sin(angle-Math.PI/6));
+		ctx.moveTo(opt.tox, opt.toy);
+		ctx.lineTo(opt.tox-headlen*Math.cos(angle+Math.PI/6),opt.toy-headlen*Math.sin(angle+Math.PI/6));*/
+	}
+}
+
+//Meine Elemente zum Zeichenen und so
+var Arrow = {//fromx, fromy, tox, toy
+	fromx: 10,
+	fromy: 10,
+	tox: 100,
+	toy: 100,
+	color: "yellow",
+	draw: function(ctx, opt){//fromx, fromy, tox, toy
+		if(opt.from && opt.to){
+			opt.fromx = opt.from.x;
+			opt.fromy = opt.from.y;
+			opt.tox = opt.to.x;
+			opt.toy = opt.to.y;
+		}
+
+		var headlen = 10;	// length of head in pixels
+		var dx = opt.tox-opt.fromx;
+		var dy = opt.toy-opt.fromy;
+		var angle = Math.atan2(dy,dx);
+		ctx.moveTo(opt.fromx, opt.fromy);
+		ctx.lineTo(opt.tox, opt.toy);
+		ctx.lineTo(opt.tox-headlen*Math.cos(angle-Math.PI/6),opt.toy-headlen*Math.sin(angle-Math.PI/6));
+		ctx.moveTo(opt.tox, opt.toy);
+		ctx.lineTo(opt.tox-headlen*Math.cos(angle+Math.PI/6),opt.toy-headlen*Math.sin(angle+Math.PI/6));
+	}
+};
+var aarrow = {//fromx, fromy, tox, toy
+	fromx: 10,
+	fromy: 10,
+	tox: 100,
+	toy: 100,
+	color: "yellow",
+	draw: function(ctx, opt){//fromx, fromy, tox, toy
+		if(opt.from && opt.to){
+			opt.fromx = opt.from.x;
+			opt.fromy = opt.from.y;
+			opt.tox = opt.to.x;
+			opt.toy = opt.to.y;
+			opt.troughx = opt.through.x;
+			opt.troughy = opt.through.y;
+		}
+
+		var dx = opt.tox-opt.fromx;
+		var dy = opt.toy-opt.fromy;
+		var angle = Math.atan2(dy,dx);
+		ctx.moveTo(opt.fromx, opt.fromy);
+		ctx.lineTo(opt.tox, opt.toy);
+
+		ctx.moveTo(opt.troughx, opt.troughy);
+		ctx.lineTo(opt.tox+(opt.fromx-opt.tox)*0.5,opt.toy+(opt.fromy-opt.toy)*0.5);
+		
+		ctx.moveTo(opt.troughx, opt.troughy);
+		ctx.lineTo(opt.tox, opt.toy);
+		ctx.moveTo(opt.troughx, opt.troughy);
+		ctx.lineTo(opt.fromx, opt.fromy);
+
+		a = 0.3;
+
+		ctx.moveTo(0,0);
+		for(var i = 0; i < c.width; i++){
+			ctx.lineTo(i,a*Math.pow(i,2));
+		}
+		//Pfeilspitze malen
+		var headlen = 10;	// length of head in pixels
+		/*ctx.lineTo(opt.tox-headlen*Math.cos(angle-Math.PI/6),opt.toy-headlen*Math.sin(angle-Math.PI/6));
+		ctx.moveTo(opt.tox, opt.toy);
+		ctx.lineTo(opt.tox-headlen*Math.cos(angle+Math.PI/6),opt.toy-headlen*Math.sin(angle+Math.PI/6));*/
+	}
+};
+//Beispiel element for die Canvas Library die heir angegebenen Werte sind dafault werte
+var Rectangle = {
+	width: 50,
+	height: 50,
+	color: "blue",
+	draw: function(ctx, opt){
+		ctx.rect(opt.x, opt.y, opt.width, opt.height);
+		ctx.fill();
+	}
+}
+
+//Eigentlicher Inhalt
+m[0]={
+	hire: Rectangle,
+	draggable: true,
+	x: 10,
+	y: 10
+};
+m[1]={
+	hire: Rectangle,
+	draggable: true,
+	x: 600,
+	y: 100
+};
+m[2]={
+	hire: Rectangle,
+	draggable: true,
+	x: 400,
+	y: 300
+};
+m.push({
+	hire: Halbkreis,
+	from: m[0],
+	through: m[1],
+	to: m[2]
+});
+c.redraw();
+</script>
